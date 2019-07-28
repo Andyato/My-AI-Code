@@ -29,9 +29,21 @@ def nms_cpu(detects, thres):
         ihs = np.maximum(iymaxs - iymins + 1., 0.)
 
         inters = iws * ihs
-        unions = areas + areas[order[1:]] - inters
+        unions = areas[i] + areas[order[1:]] - inters
 
         overlaps = inters / unions
         idxes = np.where(overlaps <= thres)[0]
         order = order[idxes + 1] 
     return keep
+
+if __name__ == "__main__":
+    detects = np.array([
+        [0, 0, 10, 10, 0.9],
+        [1, 1, 11, 11, 0.8],
+        [2, 2, 12, 12, 0.5],
+        [11, 11, 21, 21, 0.9],
+        [12, 12, 22, 22, 0.7],
+    ])
+
+    keep = nms_cpu(detects, 0.5)
+    print(detects[keep])
