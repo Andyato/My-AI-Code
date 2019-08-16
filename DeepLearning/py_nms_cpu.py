@@ -18,18 +18,17 @@ def nms_cpu(detects, thres):
 
     keep = []
     while order.size > 0:
-        i = order[0]
-        keep.append(i)
-        ixmins = np.maximum(xmins[i], xmins[order[1:]])
-        iymins = np.maximum(ymins[i], ymins[order[1:]])
-        ixmaxs = np.minimum(xmaxs[i], xmaxs[order[1:]])
-        iymaxs = np.minimum(ymaxs[i], ymaxs[order[1:]])
+        keep.append(order[0])
+        ixmins = np.maximum(xmins[order[0]], xmins[order[1:]])
+        iymins = np.maximum(ymins[order[0]], ymins[order[1:]])
+        ixmaxs = np.minimum(xmaxs[order[0]], xmaxs[order[1:]])
+        iymaxs = np.minimum(ymaxs[order[0]], ymaxs[order[1:]])
 
         iws = np.maximum(ixmaxs - ixmins + 1., 0.)
         ihs = np.maximum(iymaxs - iymins + 1., 0.)
 
         inters = iws * ihs
-        unions = areas[i] + areas[order[1:]] - inters
+        unions = areas[order[0]] + areas[order[1:]] - inters
 
         overlaps = inters / unions
         idxes = np.where(overlaps <= thres)[0]
