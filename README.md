@@ -1,1 +1,1 @@
-# My-Code-Template
+# My Ai Code Note
